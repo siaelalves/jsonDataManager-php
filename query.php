@@ -171,9 +171,8 @@ class query {
    $posts_selected = [ ] ;
 
    foreach ( $admin->posts as $post ) {
-    if ( $status->value != -1 ) {
-     if ( $post [ "status" ] != $status->value ) { continue ; }
-    }
+
+    if ( $post [ "status" ] != $status->value ) { continue ; }
 
     $post_copy [ "compare" ] = strtotime ( $post [ "dateTime" ] ) ;
     $postKeys = array_keys ( $post ) ;
