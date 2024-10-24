@@ -325,28 +325,61 @@ class query {
   }
 
   /**
-   * FUNÇÃO NÃO IMPLEMENTADA.
+   * FUNÇÃO EM PROGRESSO.
+   * @param QUERY_DB $db Nome do banco de dados a realizar a pesquisa.
+   * @param string $expression Termo de pesquisa a ser procurado.
+   * @param string $keyName Nome da chave, ou coluna, a ser pesquisada. Se o valor for "" 
+   * (string vazia), todas as colunas serão procuradas.
+   * @param QUERY_ORDER $order Define a classificação dos resultados, em ordem crescente ou 
+   * decrescente.
+   * @param int $count Quantidade de resultados a retornar. Use "-1" para retornar todos.
    */
-  public function new ( QUERY_DB $db , QUERY_TYPE $type , QUERY_ORDER $order , int $count ) {
-   global $admin ;
+  public function search ( QUERY_DB $db , $expression , string $keyName = "" , QUERY_ORDER $order = QUERY_ORDER::ASC, int $count = -1) {
+   global $paths , $admin ;
+
+   $result = [ ] ;
 
    if ( $db === QUERY_DB::POSTS ) {
+    
+    foreach ( $admin->posts as $post_obj ) {
 
-    if ( $type === QUERY_TYPE::RECENT ) {
-     
-     return $this->get_recent_posts ( 0 , $count, $order ) ;
+     foreach ( array_keys ( $post_obj ) as $key ) {
+
+      if ( $key == $keyName ) {
+
+       if ( gettype ( $post_obj [ $key ] ) != "array" ) {
+       
+        if ( str_contains ( strtolower ( $post_obj [ $key ] ) , strtolower ( $expression ) ) ) {
+        
+         array_push ( $result , $post_obj ) ;
+  
+        }
  
-    } else if ( $type === QUERY_TYPE::LIKES ) {
+       }
 
-     return $this->get_posts_by_like ( $count, $order ) ;
+      }
 
-    } else if ( $type === QUERY_TYPE::VISITS ) {
+      if ( $key == "" ) {
 
-     return $this->get_posts_by_visit ( $count , $order ) ;
-     
+       if ( gettype ( $post_obj [ $key ] ) != "array" ) {
+       
+        if ( str_contains ( strtolower ( $post_obj [ $key ] ) , strtolower ( $expression ) ) ) {
+        
+         array_push ( $result , $post_obj ) ;
+  
+        }
+ 
+       }
+
+      }
+
+     }
+
     }
 
    }
+
+   return $result ;
 
   }
 
