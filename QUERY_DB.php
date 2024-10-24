@@ -58,6 +58,27 @@ enum QUERY_DB: string {
    case "DATE_TIME_FORMATS": {
     return $paths->date_time_formats_db ;
    }
+
+   case "IMAGE_SIZES": {
+    return $paths->image_sizes_db ;
+   }
+
+   
+   case "EMAILS": {
+    return $paths->emails_db ;
+   }
+
+   case "STATISTICS": {
+    return $paths->statistics_db ;
+   }
+
+   case "ERROS": {
+    return $paths->error_db ;
+   }
+
+   case "UPDATES": {
+    return $paths->updates_db ;
+   }
   }
  }
 
