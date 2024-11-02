@@ -1,8 +1,11 @@
 <?php
 namespace data ;
 
+use \routes\url ;
+
 /** Classe query. Gerencia e executa buscas nos bancos de dados de maneiras específicas. */
 class query {
+
 
   /**
    * Obtém uma página com base na Url. Decompõe a Url em partes e depois compara a 
@@ -40,40 +43,83 @@ class query {
   * Obtém uma categoria com base na Url. Decompõe a Url em partes e depois compara a 
   * última parte da Url obtida  com as Urls de cada categoria publicada no banco de 
   * dados. Então, retorna o objeto $category que correspondente à Url.
-  * @param string $url_to_get Url que se deseja obter a categoria.
-  * @return array Retorna uma matriz que representa o objeto $category. Retorna false 
+  * @param string|url $url_to_get Url que se deseja obter a categoria.
+  * @return array|bool Retorna uma matriz que representa o objeto $category. Retorna false 
   * se não houver nenhuma categoria publicada com esta Url.
   */
-  public function get_category_by_url( $url_to_get ) {
-   global $admin , $request;
+  public function get_category_by_url( string | url $url_to_get ) : array | bool {
+   global $admin ;
+
+   if ( gettype ( $url_to_get ) == "string" ) {
+    
+    $url_to_get = new url ( $url_to_get ) ;
+
+   }
+
+   if ( gettype ( $url_to_get ) == "object" ) {
+
+    if ( !get_class ( $url_to_get ) == "routes\url" ) {
+
+     echo "Argumento url_to_get devia ser do tipo routes\url ou string." ;
+     return false ;
+
+    }
+
+   }
    
-   $url_to_get = $request->get_last_part_of_url( $url_to_get );
+   $slug = $url_to_get->path->slug ;
   
    foreach ( $admin->categories as $category ) {
     
-    if ( $category["url"] == $url_to_get ) {
-     return $category;
+    if ( $category["url"] == $slug ) {
+     return $category ;
     }
  
    }
  
-   return false;
+   return false ;
   }
 
-  public function get_tag_by_url( $url_to_get ) {
-   global $admin , $request;
+  /**
+  * Obtém uma tag com base na Url. Decompõe a Url em partes e depois compara a 
+  * última parte da Url obtida  com as Urls de cada tag publicada no banco de 
+  * dados. Então, retorna o objeto $tag que correspondente à Url.
+  * @param string|url $url_to_get Url que se deseja obter a tag.
+  * @return array|bool Retorna uma matriz que representa o objeto $tag. Retorna false 
+  * se não houver nenhuma tag publicada com esta Url.
+  */
+  public function get_tag_by_url( string|url $url_to_get ) : array|bool {
+   global $admin ;
+
+   if ( gettype ( $url_to_get ) == "string" ) {
+    
+    $url_to_get = new url ( $url_to_get ) ;
+
+   }
+
+   if ( gettype ( $url_to_get ) == "object" ) {
+
+    if ( !get_class ( $url_to_get ) == "routes\url" ) {
+
+     echo "Argumento url_to_get devia ser do tipo routes\url ou string." ;
+     return false ;
+
+    }
+
+   }
    
-   $url_to_get = $request->get_last_part_of_url( $url_to_get );
+   $slug = $url_to_get->path->slug ;
   
    foreach ( $admin->tags as $tag ) {
     
-    if ( $tag["url"] == $url_to_get ) {
-     return $tag;
+    if ( $tag["url"] == $slug ) {
+     return $tag ;
     }
  
    }
  
-   return false;
+   return false ;
+
   }
 
  /**
