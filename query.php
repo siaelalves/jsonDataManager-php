@@ -133,7 +133,7 @@ class query {
  public function get_post_by_url( $url_to_get ) {
   global $admin , $request;
 
-  $url_to_get = $request->get_last_part_of_url( $url_to_get );
+  $url_to_get = $request->url->path->slice ( $request->url->path->lenght - 1 , 1  ) ;
 
   foreach( $admin->posts as $post ) {
 
@@ -156,7 +156,7 @@ class query {
   public function get_media_by_url( $url_to_get , $is_admin_page = false ) {
    global $admin , $request;
  
-   $url_to_get = $request->get_last_part_of_url( $url_to_get );
+   $url_to_get = $request->url->path->slice ( $request->url->path->lenght - 1 , 1 ) ;
  
    foreach( $admin->medias as $media ) {
 
@@ -178,7 +178,7 @@ class query {
    global $admin , $request ;
    
    if ( count ( explode ( "/" , $post_url ) ) > 0 ) {
-    $post_url = $request->get_last_part_of_url( $post_url );
+    $post_url = $request->url->path->slice ( $request->url->path->lenght - 1 , 1 ) ;
    }
 
    foreach ( $admin->posts as $post ) {
