@@ -298,7 +298,7 @@ class query {
    * @return array Retorna uma matriz de elementos do tipo \blog\post com os posts que 
    * pertencem à categoria especificada.
    */
-  function get_posts_by_category ( int $category_id ) : array {
+  function get_posts_by_category ( int $category_id , int $status = 99 ) : array {
    global $admin ;
 
    $post_list = [ ] ;
@@ -306,6 +306,10 @@ class query {
    foreach ( $admin->posts as $post_obj ) {
     $post = new \blog\post ( ) ;
     $post->new ( $post_obj ) ;
+
+    if ( $status != 99 ) {
+     if ( $post->status->value != $status ) { continue ; }
+    }
     
     foreach ( $post->categories as $category ) {
 
@@ -368,6 +372,30 @@ class query {
 
    }
    return $posts_by_visit ;
+  }
+
+    /**
+   * Obtém uma lista de posts que correspondem a um determinado status de publicação.
+   * @param int $status Valor do status.
+   * @return array Retorna uma matriz de elementos do tipo \blog\post com os posts que 
+   * estão com o status de publicação especificado.
+   */
+  function get_posts_by_status ( int $status ) : array {
+   global $admin ;
+
+   $post_list = [ ] ;
+
+   foreach ( $admin->posts as $post_obj ) {
+    $post = new \blog\post ( ) ;
+    $post->new ( $post_obj ) ;
+
+    if ( $post->status->value != $status ) { continue ; }
+
+    array_push ( $post_list , $post ) ;
+
+   }
+
+   return $post_list ;   
   }
 
   /**
