@@ -1,6 +1,6 @@
 <?php
 /*
- © Copyright 2024, Siael Alves
+ © Copyright 2024 - 2025, Siael Alves
 */
 namespace data ;
 
