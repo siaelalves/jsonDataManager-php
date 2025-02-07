@@ -398,6 +398,28 @@ class query {
    return $post_list ;   
   }
 
+   /**
+   * Obtém uma lista de posts que correspondem a um determinado ID.
+   * @param int $id ID desejado.
+   * @return array Retorna um objeto do tipo `\blog\post` que representa o post com o valor 
+   * de ID especificado.
+   */
+  function get_post_by_id ( int $id ):\blog\post {
+   global $admin ;
+
+   foreach ( $admin->posts as $post_obj ) {
+    $post = new \blog\post ( ) ;
+    $post->new ( $post_obj ) ;
+
+    if ( $post->id != $id ) { continue ; }
+
+    return $post ;
+
+   }
+
+   return false ;
+  }
+
   /**
    * FUNÇÃO EM PROGRESSO.
    * @param QUERY_DB $db Nome do banco de dados a realizar a pesquisa.
