@@ -404,7 +404,7 @@ class query {
    * @return array Retorna um objeto do tipo `\blog\post` que representa o post com o valor 
    * de ID especificado.
    */
-  function get_post_by_id ( int $id ):\blog\post {
+  function get_post_by_id ( int $id ):\blog\post|bool {
    global $admin ;
 
    foreach ( $admin->posts as $post_obj ) {
